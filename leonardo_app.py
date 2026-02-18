@@ -15,7 +15,6 @@ st.markdown("""
     <style>
     .stButton>button {width: 100%; border-radius: 5px;}
     div[data-testid="stMetricValue"] {font-size: 1.1rem;}
-    /* Highlight Subgenre */
     div[data-testid="stAlert"] {padding: 0.5rem 1rem;}
     </style>
 """, unsafe_allow_html=True)
@@ -30,15 +29,15 @@ if 'quota_used' not in st.session_state:
 if 'search_performed' not in st.session_state:
     st.session_state['search_performed'] = False
 
-# --- KAMUS GENRE (KNOWLEDGE BASE) ---
+# --- KAMUS GENRE ---
 GENRE_DB = {
-    "reggae": ["dub", "roots", "dancehall", "ska", "rocksteady", "raggamuffin", "lovers rock", "steppers", "jungle"],
+    "reggae": ["dub", "roots", "dancehall", "ska", "rocksteady", "raggamuffin", "lovers rock", "steppers", "jungle", "sound system"],
     "jazz": ["smooth", "bebop", "fusion", "acid", "swing", "bossa nova"],
     "rock": ["metal", "punk", "grunge", "indie", "psychedelic", "alternative", "blues", "slow", "classic", "hard"],
-    "hip hop": ["trap", "boom bap", "lofi", "drill", "old school", "gangsta", "rap"],
-    "electronic": ["house", "techno", "trance", "dubstep", "dnb", "ambient", "synthwave", "edm"],
+    "hip hop": ["trap", "boom bap", "lofi", "drill", "old school", "gangsta", "rap", "rnb"],
+    "electronic": ["house", "techno", "trance", "dubstep", "dnb", "ambient", "synthwave", "edm", "lo-fi"],
     "pop": ["k-pop", "indie pop", "synth-pop", "ballad", "disco", "acoustic"],
-    "dangdut": ["koplo", "orkes", "campursari", "remix", "saweran"],
+    "dangdut": ["koplo", "orkes", "campursari", "remix", "saweran", "koplo java"],
 }
 
 ALLOWED_CATEGORIES = {'10': 'Music 🎵', '22': 'People & Blogs 🤳'}
@@ -63,9 +62,18 @@ with st.sidebar:
     st.divider()
     keyword = st.text_input("Genre / Keyword:", value="Rock")
     
-    # Pilih Wilayah
-    region_display = st.selectbox("Wilayah:", ["ID Indonesia", "BR Brazil", "US USA", "JM Jamaica"], index=0)
-    region_code = region_display.split()[0] 
+    # --- DAFTAR NEGARA UPDATE ---
+    # Menambahkan Italia, Spanyol, Rusia, Albania
+    country_list = [
+        "ID Indonesia", "BR Brazil", "US USA", "JM Jamaica",
+        "GB United Kingdom", "FR France", "DE Germany", 
+        "IT Italy", "ES Spain", "RU Russia", "AL Albania", # <-- BARU
+        "JP Japan", "MX Mexico", "CA Canada", "AU Australia",
+        "IN India", "PH Philippines", "KR South Korea"
+    ]
+    
+    region_display = st.selectbox("Wilayah Target:", country_list, index=0)
+    region_code = region_display.split()[0] # Ambil kode 2 huruf
     
     days_filter = st.slider("Hari Terakhir:", 1, 90, 7)
     
@@ -77,12 +85,11 @@ with st.sidebar:
     
     tombol_cari = st.button("🚀 MULAI RADAR", type="primary")
     
-    # --- BAGIAN DUKUNGAN SAWERIA ---
+    # --- SAWERIA ---
     st.divider()
     st.header("☕ Support Developer")
     st.write("Bantu aplikasi ini tetap jalan & update terus!")
     st.link_button("🎁 Traktir CekingOnes", "https://saweria.co/CekingOnes", type="secondary", use_container_width=True)
-    # -------------------------------
 
 # --- UPDATE KUOTA UI ---
 def update_quota_ui():
@@ -220,7 +227,7 @@ def fetch_youtube_data(api_key, query, region, days, cat_filter, v_type):
     my_bar.empty()
     return data, tags_all
 
-# --- SMART SUB-GENRE (DENGAN FALLBACK) ---
+# --- SMART SUB-GENRE ---
 def smart_subgenre_analysis(tags, main_genre):
     main_key = main_genre.lower()
     
@@ -240,7 +247,7 @@ def smart_subgenre_analysis(tags, main_genre):
                 matched_sub = next((sub for sub in known_subgenres if sub in clean_tag), clean_tag)
                 valid_subs.append(matched_sub)
     
-    # FALLBACK MECHANISM
+    # FALLBACK
     if not valid_subs:
         fallback_tags = [t.lower() for t in tags if len(t) > 3 and main_key not in t.lower()]
         return Counter(fallback_tags).most_common(8), False
@@ -317,7 +324,6 @@ if st.session_state['search_performed']:
                         if vid['tags']: st.code(", ".join(vid['tags']), language="text")
                         else: st.info("Tidak ada tags.")
                     with tab2:
-                        # PERBAIKAN UTAMA DISINI: Menambahkan KEY unik
                         st.text_area("Ket:", value=vid['description'], height=150, key=f"desc_{vid['id']}")
 
                 col_btn1, col_btn2 = st.columns([1, 1])
