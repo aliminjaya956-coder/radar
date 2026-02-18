@@ -29,15 +29,54 @@ if 'quota_used' not in st.session_state:
 if 'search_performed' not in st.session_state:
     st.session_state['search_performed'] = False
 
-# --- KAMUS GENRE ---
+# --- KAMUS GENRE SUPER LENGKAP (ULTIMATE VERSION v7) ---
 GENRE_DB = {
-    "reggae": ["dub", "roots", "dancehall", "ska", "rocksteady", "raggamuffin", "lovers rock", "steppers", "jungle", "sound system"],
-    "jazz": ["smooth", "bebop", "fusion", "acid", "swing", "bossa nova"],
-    "rock": ["metal", "punk", "grunge", "indie", "psychedelic", "alternative", "blues", "slow", "classic", "hard"],
-    "hip hop": ["trap", "boom bap", "lofi", "drill", "old school", "gangsta", "rap", "rnb"],
-    "electronic": ["house", "techno", "trance", "dubstep", "dnb", "ambient", "synthwave", "edm", "lo-fi"],
-    "pop": ["k-pop", "indie pop", "synth-pop", "ballad", "disco", "acoustic"],
-    "dangdut": ["koplo", "orkes", "campursari", "remix", "saweran", "koplo java"],
+    "reggae": [
+        "dub", "roots", "dancehall", "ska", "rocksteady", "raggamuffin", 
+        "lovers rock", "steppers", "jungle", "sound system", "culture", 
+        "bob marley", "dubwise", "rub-a-dub", "early reggae", "skinhead reggae",
+        "reggae cover", "indonesian reggae", "brazilian reggae", "dub mix"
+    ],
+    "jazz": [
+        "smooth", "bebop", "fusion", "acid", "swing", "bossa nova", 
+        "instrumental", "coffee", "relax", "lounge", "piano jazz", 
+        "sax", "cool jazz", "vocal jazz", "japanese jazz", "city pop"
+    ],
+    "rock": [
+        "metal", "punk", "grunge", "indie", "psychedelic", "alternative", 
+        "blues", "slow", "classic", "hard", "soft", "ballad", "pop rock", 
+        "90s", "2000s", "acoustic", "cover", "live", "progressive", "emo", 
+        "numetal", "glam", "stoner", "post-rock", "math rock", "garage"
+    ],
+    "hip hop": [
+        "trap", "boom bap", "lofi", "drill", "old school", "gangsta", 
+        "rap", "rnb", "freestyle", "beat", "instrumental", "underground", 
+        "west coast", "east coast", "type beat", "phonk", "grime", "soul"
+    ],
+    "electronic": [
+        "house", "techno", "trance", "dubstep", "dnb", "drum and bass", 
+        "ambient", "synthwave", "edm", "lo-fi", "bass", "workout", 
+        "deep house", "tech house", "progressive", "hardstyle", "garage", 
+        "vaporwave", "chill", "gaming music", "remix"
+    ],
+    "pop": [
+        "k-pop", "indie pop", "synth-pop", "ballad", "disco", "acoustic", 
+        "top 40", "viral", "tiktok", "mashup", "boyband", "girlband", 
+        "j-pop", "mandopop", "latin pop", "bedroom pop", "karaoke"
+    ],
+    "dangdut": [
+        "koplo", "orkes", "campursari", "remix", "saweran", "koplo java", 
+        "kendang", "pantura", "dangdut lawas", "koplo time", "pallapa", 
+        "adella", "ambyar", "cover", "viral", "dj dangdut"
+    ],
+    "metal": [
+        "thrash", "death", "black", "doom", "power", "heavy", "metalcore",
+        "djent", "industrial", "gothic", "symphonic", "folk metal", "sludge"
+    ],
+    "indie": [
+        "folk", "acoustic", "singer-songwriter", "alternative", "bedroom",
+        "dream pop", "shoegaze", "lo-fi", "chill", "coffee shop"
+    ]
 }
 
 ALLOWED_CATEGORIES = {'10': 'Music 🎵', '22': 'People & Blogs 🤳'}
@@ -334,3 +373,4 @@ if st.session_state['search_performed']:
                     st.link_button("▶️", vid['url'])
                 
                 st.write("---")
+
